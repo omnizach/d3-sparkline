@@ -1,6 +1,6 @@
 {
   "name": "d3-sparkline-chart",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "D3 plugin for creating super simple sparkline charts",
   "keywords": [
     "d3",
@@ -67,6 +67,5 @@
   "files": [
     "dist"
   ],
-  "dependencies": {
-  }
+  "dependencies": {}
 }
