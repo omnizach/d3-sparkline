@@ -2,7 +2,7 @@
 
 > D3 plugin for creating super simple sparkline charts
 
-[![NPM](https://img.shields.io/npm/v/d3-sparkline.svg)](https://www.npmjs.com/package/d3-sparkline) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/d3-sparkline-chart.svg)](https://www.npmjs.com/package/d3-sparkline-chart) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
