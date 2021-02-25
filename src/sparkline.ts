@@ -22,6 +22,8 @@ export interface Sparkline {
   margin: PropertyGetterSetterFunction<Sparkline, [number, number]>
   on: (typename: string, listener?: ((d:any, i:number) => void)) => Sparkline
   size: PropertyGetterSetterFunction<Sparkline, [number, number]>
+  x: PropertyGetterSetterFunction<Sparkline, Accessor>
+  y: PropertyGetterSetterFunction<Sparkline, Accessor>
 }
 
 export function sparkline(): Sparkline {
@@ -241,6 +243,24 @@ export function sparkline(): Sparkline {
     }
 
     _size = value
+    return my
+  }
+
+  my.x = (value?: Accessor): Sparkline | Accessor => {
+    if (value === undefined) {
+      return _x
+    }
+
+    _x = value
+    return my
+  }
+
+  my.y = (value?: Accessor): Sparkline | Accessor => {
+    if (value === undefined) {
+      return _y
+    }
+
+    _y = value
     return my
   }
 

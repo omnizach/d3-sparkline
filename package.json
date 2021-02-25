@@ -2,6 +2,12 @@
   "name": "d3-sparkline",
   "version": "1.0.0",
   "description": "D3 plugin for creating super simple sparkline charts",
+  "keywords": [
+    "d3",
+    "sparkline",
+    "chart",
+    "d3-module"
+  ],
   "author": "omnizach",
   "license": "MIT",
   "repository": "omnizach/d3-sparkline",
