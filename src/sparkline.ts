@@ -1,6 +1,4 @@
-import { Selection, scaleLinear, extent, Numeric, line, CurveFactory, curveLinear, select, pointer } from 'd3'
-import { Delaunay } from 'd3-delaunay'
-import { dispatch } from 'd3-dispatch'
+import { Selection, scaleLinear, extent, Numeric, line, CurveFactory, curveLinear, select, pointer, Delaunay, dispatch } from 'd3'
 
 const GOOD_COLOR = 'green',
       BAD_COLOR = 'firebrick',
