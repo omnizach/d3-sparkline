@@ -1,10 +1,12 @@
 import React from 'react'
 
-import { ExampleComponent } from 'd3-sparkline'
-import 'd3-sparkline/dist/index.css'
+import { SparklineExample } from './SparklineExample'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+
+  return (
+    <SparklineExample data={[1,1,2,3,5,8]} />
+  )
 }
 
 export default App
