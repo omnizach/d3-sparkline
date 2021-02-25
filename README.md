@@ -1,4 +1,4 @@
-# d3-sparkline
+# d3-sparkline-chart
 
 > D3 plugin for creating super simple sparkline charts
 
@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-npm install --save d3-sparkline
+npm install --save d3-sparkline-chart
 ```
 
 D3 is a peer dependency, so it must be included in your project.
