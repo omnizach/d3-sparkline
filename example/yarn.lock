@@ -1574,12 +1574,12 @@
     "@types/d3-array" "*"
     "@types/geojson" "*"
 
-"@types/d3-delaunay@*", "@types/d3-delaunay@^5.3.0":
+"@types/d3-delaunay@*":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@types/d3-delaunay/-/d3-delaunay-5.3.0.tgz#416169bb5c67a510c87b55d092a404fcab49def3"
   integrity sha512-gJYcGxLu0xDZPccbUe32OUpeaNtd1Lz0NYJtko6ZLMyG2euF4pBzrsQXms67LHZCDFzzszw+dMhSL/QAML3bXw==
 
-"@types/d3-dispatch@*", "@types/d3-dispatch@^2.0.0":
+"@types/d3-dispatch@*":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/d3-dispatch/-/d3-dispatch-2.0.0.tgz#1f8803041b73b81f2c751e026b7bb63dd5f24ce0"
   integrity sha512-Sh0KW6z/d7uxssD7K4s4uCSzlEG/+SP+U47q098NVdOfFvUKNTvKAIV4XqjxsUuhE/854ARAREHOxkr9gQOCyg==
@@ -1842,10 +1842,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-dom@link:../node_modules/@types/react-dom":
-  version "0.0.0"
-  uid ""
-
 "@types/react@*":
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.2.tgz#3de24c4efef902dd9795a49c75f760cbe4f7a5a8"
@@ -1853,14 +1849,6 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
-
-"@types/react@^16":
-  version "0.0.0"
-  uid ""
-
-"@types/react@link:../node_modules/@types/react":
-  version "0.0.0"
-  uid ""
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
@@ -3844,14 +3832,14 @@ d3-contour@2:
   dependencies:
     d3-array "2"
 
-d3-delaunay@5, d3-delaunay@^5.3.0:
+d3-delaunay@5:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/d3-delaunay/-/d3-delaunay-5.3.0.tgz#b47f05c38f854a4e7b3cea80e0bb12e57398772d"
   integrity sha512-amALSrOllWVLaHTnDLHwMIiz0d1bBu9gZXd1FiLfXf8sHcX9jrcj81TVZOqD4UX7MgBZZ07c8GxzEgBpJqc74w==
   dependencies:
     delaunator "4"
 
-"d3-dispatch@1 - 2", d3-dispatch@2, d3-dispatch@^2.0.0:
+"d3-dispatch@1 - 2", d3-dispatch@2:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/d3-dispatch/-/d3-dispatch-2.0.0.tgz#8a18e16f76dd3fcaef42163c97b926aa9b55e7cf"
   integrity sha512-S/m2VsXI7gAti2pBoLClFFTMOO1HTtT0j99AuXLoGFKO6deHDdnv6ZGTxSTTUTgO1zVcv82fCOtDjYK4EECmWA==
@@ -3969,7 +3957,7 @@ d3-shape@2:
   dependencies:
     d3-path "1 - 2"
 
-"d3-sparkline@link:..":
+"d3-sparkline-chart@link:..":
   version "0.0.0"
   uid ""
 
@@ -9008,7 +8996,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -9204,9 +9192,14 @@ react-dev-utils@^10.2.1:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
-"react-dom@link:../node_modules/react-dom":
-  version "0.0.0"
-  uid ""
+react-dom@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.1.tgz#1de2560474ec9f0e334285662ede52dbc5426fc6"
+  integrity sha512-6eV150oJZ9U2t9svnsspTMrWNyHc6chX0KzDeAOXftRa8bNeOKTTfCJ7KorIwenkHd2xqVTBTCZd79yk/lx/Ug==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    scheduler "^0.20.1"
 
 react-error-overlay@^6.0.7:
   version "6.0.9"
@@ -9227,9 +9220,13 @@ react-is@^17.0.1:
   version "0.0.0"
   uid ""
 
-"react@link:../node_modules/react":
-  version "0.0.0"
-  uid ""
+react@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-17.0.1.tgz#6e0600416bd57574e3f86d92edba3d9008726127"
+  integrity sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 read-pkg-up@^2.0.0:
   version "2.0.0"
@@ -9712,10 +9709,10 @@ saxes@^3.1.9:
   dependencies:
     xmlchars "^2.1.1"
 
-scheduler@^0.19.1:
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
-  integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
+scheduler@^0.20.1:
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.20.1.tgz#da0b907e24026b01181ecbc75efdc7f27b5a000c"
+  integrity sha512-LKTe+2xNJBNxu/QhHvDR14wUXHRQbVY5ZOYpOGWRzhydZUqrLb2JBvLPY7cAqFmqrWuDED0Mjk7013SZiOz6Bw==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"

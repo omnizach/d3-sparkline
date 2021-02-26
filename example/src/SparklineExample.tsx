@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import * as d3 from 'd3'
-import { sparkline } from 'd3-sparkline'
+import { sparkline } from 'd3-sparkline-chart'
 
 export const SparklineExample = () => {
   const svg = useRef<SVGSVGElement>(null)

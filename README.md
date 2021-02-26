@@ -27,12 +27,40 @@ The baseline is a flat line across the chart that acts as a goal line, deliniati
 
 The value of baseline can either be a number, or a function of the form: ```(d: data) => number```. Unlike other accessors, the entire data set it provided.
 
+Default value is `null`. A null value indicated that the baseline should be omitted.
+
 ### sparkline.better([*value*])
 
 If *value* is specified, sets better and returns the sparkline. If *value* is not specified, returns the current better value.
 
 Valid values for better are `higher` and `lower`. Default is 'higher'. *better* controls whether data values above or below the baseline are considered good or bad.
 Setting better to 'lower' flips this so that values above the baseline are considered bad (and highlighted accordingly).
+
+### sparkline.data([*value*])
+
+if *value* is specified, sets the data accessor and returns the sparkline. If *value* is not specified, returns the current data accessor.
+
+If the data given to the sparkline is not an array, then it needs to know how to access the data to make the chart. The given function to *data*
+is there to convert the datum into a list/array.
+
+Default value is the identity function, `d => d`, meaning that the incoming data is assumed to be a list.
+
+This is useful if there is additional information that isn't needed for the chart data, but is needed elsewhere. For example, to set the baseline
+based on the bound data:
+
+```ts
+const data = { myCustomBaseline: 5, myData: [2,4,6,8,10] }
+
+const sparkline = sparkline()
+                  .baseline(d => d.myCustomBaseline)
+                  .data(d => d.myData)
+                  
+d3.select(svg)
+  .selectAll('g')
+  .data(data)
+  .join('g')
+  .call(sparkline)
+```
 
 ### sparkline.domain([*value*])
 

@@ -3,7 +3,8 @@ import { Selection, scaleLinear, extent, Numeric, line, CurveFactory, curveLinea
 const GOOD_COLOR = 'green',
       BAD_COLOR = 'firebrick',
       BASELINE_COLOR = 'gray',
-      DATA_COLOR = '#333'
+      DATA_COLOR = '#333',
+      NEUTRAL_COLOR = 'steelblue'
 
 type Accessor = (d: any, i: number) => Numeric
 
@@ -14,8 +15,9 @@ export interface PropertyGetterSetterFunction<TObject, TPropIn, TPropOut = TProp
 
 export interface Sparkline {
   (selection: Selection<any | null, any, any, any>): void
-  baseline: PropertyGetterSetterFunction<Sparkline, number | ((data: any) => number)>
+  baseline: PropertyGetterSetterFunction<Sparkline, number | ((data: any, i: number) => number | null) | null, ((data: any, i: number) => number | null)>
   better: PropertyGetterSetterFunction<Sparkline, 'lower' | 'higher'>
+  data: PropertyGetterSetterFunction<Sparkline, ((d: any, i: number) => any[])>
   domain: PropertyGetterSetterFunction<Sparkline, [number | Date, number | Date] | null, [number, number] | null>
   margin: PropertyGetterSetterFunction<Sparkline, [number, number]>
   on: (typename: string, listener?: ((d:any, i:number) => void)) => Sparkline
@@ -26,9 +28,10 @@ export interface Sparkline {
 
 export function sparkline(): Sparkline {
   let my: any,
-      _baseline: number | ((d: any) => number) = 0,
+      _baseline: ((d: any, i: number) => number | null) = () => null,
       _better: 'lower' | 'higher' = 'higher',
       _curve: CurveFactory = curveLinear,
+      _data: ((d: any, i: number) => any[]) = d => d,
       _domain: [number, number] | null = null,
       _margin: [number, number] = [4, 4],
       _size: [number, number] = [180, 40], // smallest sensible size for a bootstrap container
@@ -37,7 +40,7 @@ export function sparkline(): Sparkline {
       _dispatch = dispatch('highlight')
 
   my = (selection: Selection<any | null, any, any, any>) => {
-    selection.each(function(this: any, data) {
+    selection.each(function(this: any, data, index) {
       if (!data.length) {
         return
       }
@@ -95,43 +98,51 @@ export function sparkline(): Sparkline {
                 .attr('height', _size[1])
       }
 
-      const baseline = typeof _baseline === 'function' ? _baseline(data) : _baseline,
-            isGood = (d: any, i: number) => (_better === 'higher' && _y(d, i) >= baseline) || (_better === 'lower' && _y(d, i) <= baseline),
+      const baseline = _baseline(data, index),
+            dataArray = _data(data, index),
+            isGood = (d: any, i: number) => baseline !== null && ((_better === 'higher' && _y(d, i) >= baseline) || (_better === 'lower' && _y(d, i) <= baseline)),
             x = scaleLinear()
-                  .domain(_domain || extent(data, _x) as [Numeric, Numeric])
+                  .domain(_domain || extent(dataArray, _x) as [Numeric, Numeric])
                   .range([0, _size[0]-_margin[0]*2]),
             y = scaleLinear()
-                  .domain(extent<Numeric>(data.map(_y).concat([baseline])) as [Numeric, Numeric])
+                  .domain(extent<Numeric>(dataArray.map(_y).concat([baseline as Numeric])) as [Numeric, Numeric])
                   .range([_size[1]-_margin[1]*2,0]),
             dataLine = line()
                         .x((d, i) => x(_x(d, i)))
                         .y((d, i) => y(_y(d, i)))
                         .curve(_curve),
-            delaunay = Delaunay.from(data, (d, i) => x(_x(d, i)), (d, i) => y(_y(d, i)))
+            delaunay = Delaunay.from(dataArray, (d, i) => x(_x(d, i)), (d, i) => y(_y(d, i)))
       
       let highlightIndex: number | null = null
 
-      context
-        .select('.baseline')
-        .datum(baseline)
-        .attr('x1', 0)
-        .attr('y1', y(baseline))
-        .attr('x2', _size[0]-_margin[0]*2)
-        .attr('y2', y(baseline))
+      if (baseline !== null) {
+        context
+          .select('.baseline')
+          .datum(baseline)
+          .attr('x1', 0)
+          .attr('y1', y(baseline))
+          .attr('x2', _size[0]-_margin[0]*2)
+          .attr('y2', y(baseline))
+          .attr('opacity', 1)
+      } else {
+        context
+          .select('.baseline')
+          .attr('opacity', 0)
+      }
 
       context
         .select('.data-line')
-        .datum(data)
+        .datum(dataArray)
         .attr('d', dataLine)
 
       context
         .select('.last-point')
-        .datum({ datum: data[data.length-1], index: data.length-1 })
+        .datum({ datum: dataArray[dataArray.length-1], index: dataArray.length-1 })
         .attr('cx', d => x(_x(d.datum, d.index)))
         .attr('cy', d => y(_y(d.datum, d.index)))
-        .classed('good', d => isGood(d.datum, d.index))
-        .classed('bad', d => !isGood(d.datum, d.index))
-        .attr('fill', d => isGood(d.datum, d.index) ? GOOD_COLOR : BAD_COLOR)
+        .classed('good', d => baseline !== null && isGood(d.datum, d.index))
+        .classed('bad', d => baseline !== null && !isGood(d.datum, d.index))
+        .attr('fill', d => baseline === null ? NEUTRAL_COLOR : isGood(d.datum, d.index) ? GOOD_COLOR : BAD_COLOR)
 
       context
         .select('.delaunay')
@@ -147,7 +158,7 @@ export function sparkline(): Sparkline {
         .on('mousemove', function(event) {
           const [px, py] = pointer(event),
                 i = delaunay.find(px, py),
-                d = data[i !== null ? i : data.length-1]
+                d = dataArray[i !== null ? i : dataArray.length-1]
 
           if (i === highlightIndex) {
             return
@@ -157,15 +168,15 @@ export function sparkline(): Sparkline {
           let h = context.select('.highlight')
 
           h.attr('transform', `translate(${x(_x(d, i))},0)`)
-            .classed('good', isGood(d, i))
-            .classed('bad', !isGood(d, i))
+            .classed('good', baseline !== null && isGood(d, i))
+            .classed('bad', baseline !== null && !isGood(d, i))
           
           h.select('line')
-            .attr('stroke', isGood(d, i) ? GOOD_COLOR : BAD_COLOR)
+            .attr('stroke', baseline === null ? NEUTRAL_COLOR : isGood(d, i) ? GOOD_COLOR : BAD_COLOR)
 
           h.select('circle')
             .attr('cy', y(_y(d, i)))
-            .attr('fill', isGood(d, i) ? GOOD_COLOR : BAD_COLOR)
+            .attr('fill', baseline === null ? NEUTRAL_COLOR : isGood(d, i) ? GOOD_COLOR : BAD_COLOR)
 
           _dispatch.call('highlight', context, d, i)
         })
@@ -180,21 +191,21 @@ export function sparkline(): Sparkline {
 
           highlightIndex = null
 
-          _dispatch.call('highlight', context, data[data.length-1], data.length-1)
+          _dispatch.call('highlight', context, dataArray[dataArray.length-1], dataArray.length-1)
         })
 
         // dispatch even initially to trigger that the last point is highlighted by default
-        _dispatch.call('highlight', context, data[data.length-1], data.length-1)
+        _dispatch.call('highlight', context, dataArray[dataArray.length-1], dataArray.length-1)
 
     })
   }
 
-  my.baseline = (value?: number | ((data: any) => number)): Sparkline | number | ((data: any) => number) => {
+  my.baseline = (value?: number | ((data: any, i: number) => number)): Sparkline | number | ((data: any, i: number) => number | null) => {
     if (value === undefined) {
       return _baseline
     }
 
-    _baseline = value
+    _baseline = value === null || typeof value !== 'function' ? () => value : value
     return my
   }
 
@@ -204,6 +215,15 @@ export function sparkline(): Sparkline {
     }
 
     _better = value
+    return my
+  }
+
+  my.data = (value?: ((d: any, i: number) => any[])): Sparkline | ((d: any, i: number) => any[]) => {
+    if (value === undefined) {
+      return _data
+    }
+
+    _data = value
     return my
   }
 
