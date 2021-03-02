@@ -81,15 +81,19 @@ Sets the margins around the edge of the chart, within the given *size*.
 
 Default is [4, 4].
 
-### sparkline.on('highlight', *listener*)
+### sparkline.on('event', *listener*)
 
-Adds an event listener for when the highlighted value changes. By default, the last data point is highlighted, and this event is dispatched
-when the chart is first created and subsequently any time the highlighted value changes. The *listener* signature is of the form
+The *event* value should be one of 'highlight' or 'unhighlight'.
+
+Adds an event listener for when the highlighted value changes. The 'unhighlight' event is dispatched
+when the chart is first created. The last data point is provided to the listener for this event since
+the chart marks that point when there is no interaction.
+
+The 'hightlight' event is dispatched any time the highlighted value
+changes. The *listener* signature is of the form
 `(d: datum, i: index) => void`.
 
 This is useful for changing any data labels to react to when the user mouses over the chart.
-
-Currently, 'highlight' is the only event type.
 
 ### sparkline.size([*value*])
 

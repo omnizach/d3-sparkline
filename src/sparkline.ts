@@ -191,11 +191,11 @@ export function sparkline(): Sparkline {
 
           highlightIndex = null
 
-          _dispatch.call('highlight', context, dataArray[dataArray.length-1], dataArray.length-1)
+          _dispatch.call('unhighlight', context, dataArray[dataArray.length-1], dataArray.length-1)
         })
 
-        // dispatch even initially to trigger that the last point is highlighted by default
-        _dispatch.call('highlight', context, dataArray[dataArray.length-1], dataArray.length-1)
+        // dispatch event initially to trigger that the last point is highlighted by default
+        _dispatch.call('unhighlight', context, dataArray[dataArray.length-1], dataArray.length-1)
 
     })
   }
