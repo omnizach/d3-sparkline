@@ -105,6 +105,14 @@ Sets the margins around the edge of the chart, within the given *size*.
 
 Default is [4, 4].
 
+### sparkline.offset([*value*])
+
+If *value* is specified, set the offset percent and return the sparkline. If *value* is not specified, returns the current offset percent or null if default.
+
+This controls what percentage of width or height the labels are allocated. Expected values are in the range (0, 1), meaning  (0-100%).
+
+The default is 25% for left layout and 50% for top layout. Set to null to allow default control.
+
 ### sparkline.on('event', *listener*)
 
 The *event* value should be one of 'highlight' or 'unhighlight'.

@@ -15,6 +15,7 @@ export const SparklineExample = () => {
             .xLabel(d => `f(${d})`)
             .on('highlight', d => console.log(d))
             .layout('left')
+            .offset(0.4)
             .size([360, 60]))
   })
 

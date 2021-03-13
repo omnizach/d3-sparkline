@@ -29,6 +29,7 @@ export interface Sparkline {
   domainFormat: PropertyGetterSetterFunction<Sparkline, Formatter | null, Formatter>
   layout: PropertyGetterSetterFunction<Sparkline, LayoutEnum>
   margin: PropertyGetterSetterFunction<Sparkline, [number, number]>
+  offset: PropertyGetterSetterFunction<Sparkline, number | null>
   on: (typename: string, listener?: ((d:any, i:number, extra: { isGood: boolean | null, data: any[] }) => void) | null) => Sparkline
   size: PropertyGetterSetterFunction<Sparkline, [number, number]>
   title: PropertyGetterSetterFunction<Sparkline, StringAccessor | string, StringAccessor>
@@ -47,6 +48,7 @@ export function sparkline(): Sparkline {
       _domain: [number, number] | null = null,
       _layout: LayoutEnum = 'left',
       _margin: [number, number] = [6, 6],
+      _offset: number | null = null,
       _size: [number, number] = [360, 40], // small, sensible size for a bootstrap container
       _annotationSize: [number, number] = [86, 28],
       _chartSize: [number, number] = [262, 28],
@@ -405,6 +407,17 @@ export function sparkline(): Sparkline {
     return my
   }
 
+  my.offset = (value?: number | null): Sparkline | number | null => {
+    if (value === undefined) {
+      return _offset
+    }
+
+    _offset = value
+    my.size(_size)
+
+    return my
+  }
+
   my.on = (typename: string, listener: ((d:any, i:number) => void) | null = null): Sparkline => {
     if (!listener) {
       _dispatch.on(typename, null)
@@ -424,12 +437,12 @@ export function sparkline(): Sparkline {
     
     switch (_layout) {
       case 'left':
-        _annotationSize = [_size[0]*LEFT_OFFSET_PCT, _size[1]]
-        _chartSize = [_size[0]*(1-LEFT_OFFSET_PCT), _size[1]]
+        _annotationSize = [_size[0]*(_offset || LEFT_OFFSET_PCT), _size[1]]
+        _chartSize = [_size[0]*(1-(_offset || LEFT_OFFSET_PCT)), _size[1]]
         break
       case 'top':
-        _annotationSize = [_size[0], _size[1]*TOP_OFFSET_PCT]
-        _chartSize = [_size[0], _size[1]*(1-TOP_OFFSET_PCT)]
+        _annotationSize = [_size[0], _size[1]*(_offset || TOP_OFFSET_PCT)]
+        _chartSize = [_size[0], _size[1]*(1-(_offset || TOP_OFFSET_PCT))]
         break
       case 'simple':
         _annotationSize = [0, 0]
