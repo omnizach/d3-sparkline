@@ -6,21 +6,20 @@ export const SparklineExample = () => {
   const svg = useRef<SVGSVGElement>(null)
 
   useEffect(() => {
-    const sparks = sparkline()
-                    .baseline(5)
-                    .on('highlight', d => console.log(d))
-
     d3.select(svg.current)
-      .selectAll('g')
-      .data([[1,1,2,3,5,8,13], [3,3,3,3,5,5,5,5,4,5,3], [10,9,8,10,7]])
-      .join('g')
-      .attr('transform', (_d, i) => `translate(0,${i*40})`)
-      .call(sparks)
-
+      .datum([1,1,2,3,5,8,13,21])
+      .call(sparkline()
+            .baseline(5)
+            .baselineLabel('five')
+            .title('Fibinacci Numbers')
+            .xLabel(d => `f(${d})`)
+            .on('highlight', d => console.log(d))
+            .layout('left')
+            .size([360, 60]))
   })
 
   return (
-    <svg ref={svg} width="180" height="120">
+    <svg ref={svg} width="360" height="120">
       <rect width="100%" height="100%" stroke="black" fill="none" />
     </svg>
   )
