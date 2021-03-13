@@ -10,8 +10,8 @@ interface PropertyGetterSetterFunction<TObject, TPropIn, TPropOut = TPropIn> {
   (value: TPropIn): TObject
 }
 
-const GOOD_COLOR = 'green',
-      BAD_COLOR = 'firebrick',
+const GOOD_COLOR = 'forestgreen',
+      BAD_COLOR = 'crimson',
       BASELINE_COLOR = 'gray',
       DATA_COLOR = '#333',
       NEUTRAL_COLOR = 'steelblue',
@@ -46,10 +46,10 @@ export function sparkline(): Sparkline {
       _data: ((d: any) => any[]) = d => d,
       _domain: [number, number] | null = null,
       _layout: LayoutEnum = 'left',
-      _margin: [number, number] = [4, 4],
+      _margin: [number, number] = [6, 6],
       _size: [number, number] = [360, 40], // small, sensible size for a bootstrap container
-      _annotationSize: [number, number] = [88, 32],
-      _chartSize: [number, number] = [264, 32],
+      _annotationSize: [number, number] = [86, 28],
+      _chartSize: [number, number] = [262, 28],
       _x: Accessor = (_d: any, i: number) => i,
       _y: Accessor = (d: any) => d as number,
       _baselineLabel: StringAccessor = () => '',
@@ -124,7 +124,7 @@ export function sparkline(): Sparkline {
                 annotation.append('text')
                         .attr('class', 'baseline-label')
                         .attr('text-anchor', _layout === 'left' ? 'end' : 'start')
-                        .attr('x', _layout === 'left' ? _annotationSize[0] : 0)
+                        .attr('x', _layout === 'left' ? _annotationSize[0]*0.95 : 0)
                         .attr('y', _annotationSize[1])
                         .attr('fill', BASELINE_COLOR)
                         .attr('font-size', _annotationSize[1]*0.3)
@@ -147,6 +147,8 @@ export function sparkline(): Sparkline {
           
                 chart.append('circle')
                       .attr('class', 'last-point')
+                      .attr('stroke', DATA_COLOR)
+                      .attr('stroke-width', 1.5)
                       .attr('r', 3.5)
 
                 const highlight = chart.append('g')
@@ -163,6 +165,8 @@ export function sparkline(): Sparkline {
                 
                 highlight.append('circle')
                           .attr('r', 3.5)
+                          .attr('stroke', DATA_COLOR)
+                          .attr('stroke-width', 1.5)
 
                 chart.append('rect')
                         .attr('class', 'delaunay')
@@ -199,7 +203,7 @@ export function sparkline(): Sparkline {
 
     annotation.select('.y-label')
               .text(_yLabel(_dataFormat(_y(data[data.length-1], data.length-1))))
-              .attr('fill', isGood(data[data.length-1], data.length-1) === null ? DATA_COLOR :
+              .attr('fill', isGood(data[data.length-1], data.length-1) === null ? NEUTRAL_COLOR :
                             isGood(data[data.length-1], data.length-1) ? GOOD_COLOR : BAD_COLOR)
   
     if (baseline !== null) {
@@ -250,7 +254,7 @@ export function sparkline(): Sparkline {
               i = delaunay.find(px, py),
               d = data[i !== null ? i : data.length-1],
               good = isGood(d, i),
-              goodColor = good === null ? DATA_COLOR : good ? GOOD_COLOR : BAD_COLOR
+              goodColor = good === null ? NEUTRAL_COLOR : good ? GOOD_COLOR : BAD_COLOR
 
         if (i === highlightIndex) {
           return
@@ -287,7 +291,7 @@ export function sparkline(): Sparkline {
         annotation.select('.x-label').attr('opacity', 0)
         annotation.select('.y-label')
                   .text(_yLabel(_dataFormat(_y(data[data.length-1], data.length-1))))
-                  .attr('fill', isGood(data[data.length-1], data.length-1) === null ? DATA_COLOR :
+                  .attr('fill', isGood(data[data.length-1], data.length-1) === null ? NEUTRAL_COLOR :
                                 isGood(data[data.length-1], data.length-1) ? GOOD_COLOR : BAD_COLOR)
 
         chart
