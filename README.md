@@ -31,6 +31,10 @@ Default value is `null`. A null value indicated that the baseline should be omit
 
 ### sparkline.baselineLabel([*value*])
 
+If *value* is specified, sets the baselineLabel and returns the sparkline. If *value* is not specified, returns the current baselineLabel.
+
+*baselineLabel* can be either a string or function of the form `data => string`, where *data* is the entire datum provided.
+
 ### sparkline.better([*value*])
 
 If *value* is specified, sets better and returns the sparkline. If *value* is not specified, returns the current better value.
@@ -62,6 +66,10 @@ d3.select(svg)
 
 ### sparkline.dataFormat([*value*])
 
+if *value* is specified, sets the dataFormat function and returns the sparkline. If *value* is not specified, returns the current dataFormat function.
+
+This function has the form `(d, i) => string` and controls how the data label is formatted.
+
 ### sparkline.domain([*value*])
 
 If *value* is specified, sets the domain and returns the sparkline. If *value* is not specified, returns the current domain value.
@@ -75,7 +83,19 @@ Default is *null*. Accepted values are *[number, number]* or *[Date, Date]*.
 
 ### sparkline.domainFormat([*value*])
 
+if *value* is specified, sets the domainFormat function and returns the sparkline. If *value* is not specified, returns the current domainFormat function.
+
+This function has the form `(d, i) => string` and controls how the x label is formatted.
+
 ### sparkline.layout([*value*])
+
+If *value* is specified, sets the layout and returns the sparkline. If *value* is not specified, returns the current layout value.
+
+Valid values are 'left', 'top', and 'simple'.
+
+* left: The labels are to the left of the chart.
+* top: The labels are above the chart.
+* simple: Labels are disabled.
 
 ### sparkline.margin([*value*])
 
@@ -109,6 +129,11 @@ Default is [360, 40].
 
 ### sparkline.title([*value*])
 
+If *value* is specified, sets the title and returns the sparkline. If *value* is not specified, returns the current title function.
+
+This can be provided as either a string or function of the form `datum => string`, where datum is the entire dataset. The controls
+the title of the sparkline, by default in the upper left.
+
 ### sparkline.x([*value*])
 
 If *value* is specified, sets the x accessor and returns the sparkline. If *value* is not specified, returns the current `x` accessor value.
@@ -119,6 +144,10 @@ Default value is `(d, i) => i`. So, the default just charts the given values equ
 
 ### sparkline.xLabel([*value*])
 
+If *value* is specified, sets the xLabel function and returns the sparkline. If *value* is not specified, returns the current xLabel function.
+
+This function is of the form `(d, i) => string` and controls how the x value is displayed.
+
 ### sparkline.y([*value*])
 
 If *value* is specified, sets the y accessor and returns the sparkline. If *value* is not specified, returns the current `y` accessor value.
@@ -128,6 +157,10 @@ The accessor is used to get y values from each datum.
 Default value is `(d, i) => d`. So, the default just assumes that the input is a list of numbers.
 
 ### sparkline.yLabel([*value*])
+
+If *value* is specified, sets the yLabel function and returns the sparkline. If *value* is not specified, returns the current yLabel function.
+
+This function is of the form `(d, i) => string` and controls how the y value is displayed.
 
 ## Example
 
