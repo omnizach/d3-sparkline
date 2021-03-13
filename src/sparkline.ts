@@ -113,6 +113,7 @@ export function sparkline(): Sparkline {
 
                 annotation.append('text')
                         .attr('class', 'y-label')
+                        .attr('font-weight', 'bold')
                         .attr('text-anchor', _layout === 'left' ? 'start' : 'end')
                         .attr('x', _layout === 'left' ? 0 : _annotationSize[0])
                         .attr('y', _annotationSize[1]*0.5)
