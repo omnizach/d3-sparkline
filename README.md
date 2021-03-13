@@ -29,6 +29,8 @@ The value of baseline can either be a number, or a function of the form: ```(d: 
 
 Default value is `null`. A null value indicated that the baseline should be omitted.
 
+### sparkline.baselineLabel([*value*])
+
 ### sparkline.better([*value*])
 
 If *value* is specified, sets better and returns the sparkline. If *value* is not specified, returns the current better value.
@@ -50,17 +52,15 @@ based on the bound data:
 
 ```ts
 const data = { myCustomBaseline: 5, myData: [2,4,6,8,10] }
-
-const sparkline = sparkline()
-                  .baseline(d => d.myCustomBaseline)
-                  .data(d => d.myData)
                   
 d3.select(svg)
-  .selectAll('g')
-  .data(data)
-  .join('g')
-  .call(sparkline)
+  .datum(data)
+  .call(sparkline()
+          .baseline(d => d.myCustomBaseline)
+          .data(d => d.myData))
 ```
+
+### sparkline.dataFormat([*value*])
 
 ### sparkline.domain([*value*])
 
@@ -72,6 +72,10 @@ be visible.
 This is useful for syncronizing multiple sparklines to the same domain, such as a date range.
 
 Default is *null*. Accepted values are *[number, number]* or *[Date, Date]*.
+
+### sparkline.domainFormat([*value*])
+
+### sparkline.layout([*value*])
 
 ### sparkline.margin([*value*])
 
@@ -101,7 +105,9 @@ If *value* is specified, sets the size and returns the sparkline. If *value* is 
 
 Sets the size of chart in the form [width, height].
 
-Default is [180, 40].
+Default is [360, 40].
+
+### sparkline.title([*value*])
 
 ### sparkline.x([*value*])
 
@@ -111,6 +117,8 @@ The accessor is used to get x values from each datum.
 
 Default value is `(d, i) => i`. So, the default just charts the given values equally spaced.
 
+### sparkline.xLabel([*value*])
+
 ### sparkline.y([*value*])
 
 If *value* is specified, sets the y accessor and returns the sparkline. If *value* is not specified, returns the current `y` accessor value.
@@ -118,6 +126,8 @@ If *value* is specified, sets the y accessor and returns the sparkline. If *valu
 The accessor is used to get y values from each datum.
 
 Default value is `(d, i) => d`. So, the default just assumes that the input is a list of numbers.
+
+### sparkline.yLabel([*value*])
 
 ## Example
 
@@ -132,21 +142,17 @@ export const SparklineExample = () => {
   const svg = useRef<SVGSVGElement>(null)
 
   useEffect(() => {
-    const sparks = sparkline()
-                    .baseline(5)
-                    .on('highlight', d => console.log(d))
 
     d3.select(svg.current)
-      .selectAll('g')
-      .data([[1,1,2,3,5,8,13], [3,3,3,3,5,5,5,5,4,5,3], [10,9,8,10,7]])
-      .join('g')
-      .attr('transform', (_d, i) => `translate(0, ${i*40})`)
-      .call(sparks)
+      .datum([1,1,2,3,5,8,13])
+      .call(sparkline()
+              .baseline(5)
+              .on('highlight', d => console.log(d)))
 
   })
 
   return (
-    <svg ref={svg} width="180" height="120">
+    <svg ref={svg} width="360" height="120">
       <rect width="100%" height="100%" stroke="black" fill="none" />
     </svg>
   )

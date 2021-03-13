@@ -21,21 +21,20 @@ const GOOD_COLOR = 'green',
 export interface Sparkline {
   (selection: Selection<any | null, any, any, any>): void
   baseline: PropertyGetterSetterFunction<Sparkline, number | ((data: any) => number | null) | null, ((data: any) => number | null)>
+  baselineLabel: PropertyGetterSetterFunction<Sparkline, StringAccessor | string, StringAccessor>
   better: PropertyGetterSetterFunction<Sparkline, 'lower' | 'higher'>
   data: PropertyGetterSetterFunction<Sparkline, ((d: any, i: number) => any[])>
+  dataFormat: PropertyGetterSetterFunction<Sparkline, Formatter | null, Formatter>
   domain: PropertyGetterSetterFunction<Sparkline, [number | Date, number | Date] | null, [number, number] | null>
+  domainFormat: PropertyGetterSetterFunction<Sparkline, Formatter | null, Formatter>
+  layout: PropertyGetterSetterFunction<Sparkline, LayoutEnum>
   margin: PropertyGetterSetterFunction<Sparkline, [number, number]>
   on: (typename: string, listener?: ((d:any, i:number, extra: { isGood: boolean | null, data: any[] }) => void) | null) => Sparkline
   size: PropertyGetterSetterFunction<Sparkline, [number, number]>
-  x: PropertyGetterSetterFunction<Sparkline, Accessor>
-  y: PropertyGetterSetterFunction<Sparkline, Accessor>
-
-  layout: PropertyGetterSetterFunction<Sparkline, LayoutEnum>
-  baselineLabel: PropertyGetterSetterFunction<Sparkline, StringAccessor | string, StringAccessor>
-  dataFormat: PropertyGetterSetterFunction<Sparkline, Formatter | null, Formatter>
-  domainFormat: PropertyGetterSetterFunction<Sparkline, Formatter | null, Formatter>
   title: PropertyGetterSetterFunction<Sparkline, StringAccessor | string, StringAccessor>
+  x: PropertyGetterSetterFunction<Sparkline, Accessor>
   xLabel: PropertyGetterSetterFunction<Sparkline, StringAccessor | string, StringAccessor>
+  y: PropertyGetterSetterFunction<Sparkline, Accessor>
   yLabel: PropertyGetterSetterFunction<Sparkline, StringAccessor | string, StringAccessor>
 }
 
